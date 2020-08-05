@@ -1,0 +1,37 @@
+1.
+create database demo character set 'utf8mb4';
+
+create table post  (
+    id bigint not null comment 'id',
+    title varchar(40) null comment '岗位名称',
+    desc text null comment '工作职能描述',
+    create_time datetime not null comment '创建时间',
+    update_time datetime not null comment '更新时间',
+    primary key (id)
+);
+
+create table employee  (
+    id bigint not null comment 'id',
+    name varchar(20) not null comment '姓名',
+    gender tinyint(1) null comment '性别',
+    age tinyint(3) null comment '年龄',
+    phone varchar(11) null comment '手机号',
+    position_title varchar(40) null comment '岗位名称',
+    create_time datetime not null comment '创建时间',
+    update_time datetime not null comment '更新时间',
+    primary key (id)
+);
+
+2. select concat(left(phone, 3), "****", right(phone, 4)) as phone from employee
+
+3. select p.title, count(e.id) as employeeCount from employee as e left join post as p on e.position_title like p.title group by p.title
+
+4. select position_title, name from employee
+    where age in
+        (select max(e.age)
+            from employee as e
+            left join post as p
+            on e.position_title like p.title
+            group by p.title)
+
+5. select phone from employee where concat(left(phone, 3), "****", right(phone, 4)) like '131****4563'
